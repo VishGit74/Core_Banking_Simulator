@@ -1,0 +1,8 @@
+# Core Banking Simulator - Development Dependencies
+# Install with: pip install -r requirements-dev.txt
+
+-r requirements.txt
+
+# Testing
+pytest>=7.0
+httpx>=0.24

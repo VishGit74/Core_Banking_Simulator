@@ -1,0 +1,15 @@
+[project]
+name = "core-banking-simulator"
+version = "0.1.0"
+description = "A learning project implementing core banking concepts"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
