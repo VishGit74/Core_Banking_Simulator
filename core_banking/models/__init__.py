@@ -6,6 +6,16 @@ them through Base.metadata when generating migrations.
 """
 
 from core_banking.models.base import Base
+from core_banking.models.enums import AccountType, EntryType
 from core_banking.models.audit_log import AuditLog
+from core_banking.models.ledger_account import LedgerAccount
+from core_banking.models.ledger_entry import LedgerEntry
 
-__all__ = ["Base", "AuditLog"]
+__all__ = [
+    "Base",
+    "AccountType",
+    "EntryType",
+    "AuditLog",
+    "LedgerAccount",
+    "LedgerEntry",
+]
