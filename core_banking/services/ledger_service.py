@@ -212,3 +212,37 @@ class LedgerService:
             .where(LedgerEntry.transaction_id == transaction_id)
         ).scalars().all()
         return list(entries)
+
+    def check_integrity(self) -> dict:
+        """
+        Verify the fundamental ledger invariant: total debits = total credits.
+
+        This is the equivalent of a trial balance in accounting.
+        If this check fails, the ledger has been corrupted —
+        either by a bug in the code or by direct database
+        manipulation outside the application.
+
+        Returns a dictionary with the check results.
+        """
+        total_debits = self.db.execute(
+            select(func.coalesce(func.sum(LedgerEntry.amount), 0)).where(
+                LedgerEntry.entry_type == EntryType.DEBIT
+            )
+        ).scalar()
+
+        total_credits = self.db.execute(
+            select(func.coalesce(func.sum(LedgerEntry.amount), 0)).where(
+                LedgerEntry.entry_type == EntryType.CREDIT
+            )
+        ).scalar()
+
+        total_debits = Decimal(str(total_debits))
+        total_credits = Decimal(str(total_credits))
+        is_balanced = total_debits == total_credits
+
+        return {
+            "is_balanced": is_balanced,
+            "total_debits": total_debits,
+            "total_credits": total_credits,
+            "difference": abs(total_debits - total_credits),
+        }

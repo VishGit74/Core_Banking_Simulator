@@ -1,10 +1,5 @@
 """
 Ledger entry model.
-
-Each entry is one half of a double-entry transaction.
-A debit in one account is always paired with a credit
-in another. Entries are immutable — once posted, they
-are never modified or deleted.
 """
 
 import uuid
@@ -22,15 +17,6 @@ from core_banking.models.enums import EntryType
 
 
 class LedgerEntry(Base):
-    """
-    An immutable debit or credit entry in the ledger.
-
-    Entries are grouped by transaction_id. Within a group,
-    the sum of DEBIT amounts must equal the sum of CREDIT
-    amounts. This invariant is enforced by the LedgerService,
-    not by the model — the model is just the data structure.
-    """
-
     __tablename__ = "ledger_entries"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -41,7 +27,7 @@ class LedgerEntry(Base):
         ForeignKey("ledger_accounts.id"), nullable=False, index=True
     )
     entry_type: Mapped[EntryType] = mapped_column(
-        SAEnum(EntryType, name="entry_type_enum"),
+        SAEnum(EntryType, name="entry_type_enum", create_constraint=True),
         nullable=False,
     )
     amount: Mapped[Decimal] = mapped_column(
@@ -57,7 +43,6 @@ class LedgerEntry(Base):
         DateTime, nullable=False, default=datetime.utcnow
     )
 
-    # Relationship back to the account
     account: Mapped["LedgerAccount"] = relationship(
         back_populates="entries"
     )

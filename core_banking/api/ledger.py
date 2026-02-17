@@ -130,3 +130,16 @@ def get_account_entries(
                 status_code=404, detail=f"Account {account_id} not found"
             )
     return entries
+
+
+@router.get("/integrity")
+def check_ledger_integrity(db: Session = Depends(get_db)):
+    """
+    Verify that total debits equal total credits across the entire ledger.
+
+    This is the trial balance check. In a healthy system, this
+    always returns is_balanced=true. If it returns false,
+    investigate immediately — the ledger has been corrupted.
+    """
+    service = LedgerService(db)
+    return service.check_integrity()
