@@ -1,10 +1,5 @@
 """
 Shared enumerations for database models.
-
-Using Python enums mapped to database enums ensures that
-only valid values can be stored. An invalid account_type
-or entry_type is caught at the database level, not just
-in Python validation.
 """
 
 import enum
@@ -23,3 +18,27 @@ class EntryType(str, enum.Enum):
     """Direction of a ledger entry."""
     DEBIT = "DEBIT"
     CREDIT = "CREDIT"
+
+
+class CustomerAccountType(str, enum.Enum):
+    """Customer-facing account types."""
+    CHECKING = "CHECKING"
+    SAVINGS = "SAVINGS"
+    CREDIT = "CREDIT"
+    PREPAID = "PREPAID"
+
+
+class AccountStatus(str, enum.Enum):
+    """Account lifecycle states."""
+    PENDING = "PENDING"
+    ACTIVE = "ACTIVE"
+    FROZEN = "FROZEN"
+    BLOCKED = "BLOCKED"
+    CLOSED = "CLOSED"
+
+
+class KYCStatus(str, enum.Enum):
+    """Know Your Customer verification status."""
+    PENDING = "PENDING"
+    VERIFIED = "VERIFIED"
+    REJECTED = "REJECTED"
