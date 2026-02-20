@@ -42,3 +42,22 @@ class KYCStatus(str, enum.Enum):
     PENDING = "PENDING"
     VERIFIED = "VERIFIED"
     REJECTED = "REJECTED"
+
+
+class TransactionType(str, enum.Enum):
+    """Types of financial transactions."""
+    DEPOSIT = "DEPOSIT"
+    WITHDRAWAL = "WITHDRAWAL"
+    TRANSFER = "TRANSFER"
+    FEE = "FEE"
+    INTEREST = "INTEREST"
+    REVERSAL = "REVERSAL"
+
+
+class TransactionStatus(str, enum.Enum):
+    """Transaction processing states."""
+    PENDING = "PENDING"
+    PROCESSING = "PROCESSING"
+    COMPLETED = "COMPLETED"
+    FAILED = "FAILED"
+    REVERSED = "REVERSED"
